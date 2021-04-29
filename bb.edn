@@ -1,0 +1,48 @@
+{:tasks
+ {:requires ([babashka.fs :as fs])
+  ;; Helpers
+  -exists? (fn -exists? [path]
+             (let [ret (fs/exists? path)]
+               (when ret (println "Path" (str path) "already exists"))
+               ret))
+  -github-repo (fn -github-repo [gh-repo]
+                 (str "git@github.com:" gh-repo ".git"))
+  ;; Tasks
+  keyboard-repo {:doc "Install cldwalker/keyboard"
+                 ;; TODO: Depend on hammerspoon clone
+                 :depends [-exists? -github-repo]
+                 :task (let [path (fs/path (System/getenv "HOME") ".keyboard")]
+                         (when-not (-exists? path)
+                           (shell (format "git clone %s %s"
+                                          (-github-repo "cldwalker/keyboard")
+                                          path))
+                           (shell {:dir path} "script/setup")))}
+
+  atomfiles-repo {:doc "Install cldwalker/atomfiles"
+                  :depends [-exists? -github-repo]
+                  :task (let [path (fs/path (System/getenv "HOME") "code" "repo" "atomfiles")]
+                          (when-not (-exists? path)
+                            ;; TODO: ln to ~/.atom after
+                            (shell (format "git clone %s %s"
+                                           (-github-repo "cldwalker/atomfiles")
+                                           path))))}
+
+  bb-clis-repo {:doc "Install cldwalker/bb-clis"
+                :depends [-exists? -github-repo]
+                :task (let [path (fs/path (System/getenv "HOME") "code" "repo" "bb-clis")]
+                        (when-not (-exists? path)
+                          (shell (format "git clone %s %s"
+                                         (-github-repo "cldwalker/bb-clis")
+                                         path))))}
+
+  dotfiles-repo {:doc "Install cldwalker/dotfiles"
+                 :depends [-exists? -github-repo]
+                 :task (let [path (str (fs/path (System/getenv "HOME") "code" "repo" "dotfiles"))]
+                         (when-not (-exists? path)
+                           (shell (format "git clone %s %s"
+                                          (-github-repo "cldwalker/dotfiles")
+                                          path))
+                           (shell {:dir path} "ruby install.rb")))}
+
+  osx-setup {:doc "Sets up all repositories for osx"
+             :depends [keyboard-repo dotfiles-repo bb-clis-repo atomfiles-repo]}}}
