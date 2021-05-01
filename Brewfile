@@ -10,6 +10,7 @@ cask 'clipy'
 brew 'tmux'
 # required sudo access
 cask 'alinof-timer'
+cask 'shiori'
 
 ## Clojure
 # required symlink for java to be required
@@ -25,3 +26,5 @@ brew 'clj-kondo'
 cask 'aws-vault'
 brew 'awscli'
 brew 'magic-wormhole'
+brew 'node'
+brew 'graphviz'

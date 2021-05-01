@@ -28,13 +28,22 @@
   atomfiles-repo {:doc "Install cldwalker/atomfiles"
                   :depends [-exists? -github-repo]
                   :task (let [path (str (fs/path (System/getenv "HOME") "code" "repo" "atomfiles"))]
+
                           (when-not (-exists? path)
                             (shell (format "git clone %s %s"
                                            (-github-repo "cldwalker/atomfiles")
                                            path))
                             ;; TODO: Address swackets
                             (shell {:dir path} "apm install --packages-file my-packages.txt")
-                            (shell (format "ln -s %s ~/.atom" path))))}
+                            (shell (format "ln -s %s ~/.atom" path))
+
+                            ;; Install git-puns
+                            (let [git-puns-path (str (System/getenv "HOME") "/.atom/packages/git-puns")]
+                              (shell (format "git clone %s %s"
+                                             (-github-repo "cldwalker/git-puns")
+                                             git-puns-path))
+                              (shell {:dir git-puns-path} "yarn install")
+                              (shell {:dir git-puns-path} "yarn shadow-cljs compile dev"))))}
 
   bb-clis-repo {:doc "Install cldwalker/bb-clis"
                 :depends [-exists? -github-repo]
