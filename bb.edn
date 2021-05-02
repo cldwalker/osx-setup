@@ -1,15 +1,16 @@
 {:tasks
  {:requires ([babashka.fs :as fs])
-  ;; Helpers
-  -exists? (fn -exists? [path]
-             (let [ret (fs/exists? path)]
-               (when ret (println "Path" (str path) "already installed"))
-               ret))
-  -github-repo (fn -github-repo [gh-repo]
-                 (str "git@github.com:" gh-repo ".git"))
-  ;; Tasks
+  :init (do
+          ;; Define helpers
+          (defn -exists? [path]
+            (let [ret (fs/exists? path)]
+              (when ret (println "Path" (str path) "already installed"))
+              ret))
+
+          (defn -github-repo [gh-repo]
+            (str "git@github.com:" gh-repo ".git")))
+
   hammerspoon-repo {:doc "Install cldwalker/hammerspoon-files"
-                    :depends [-exists? -github-repo]
                     :task (let [path (fs/path (System/getenv "HOME") ".hammerspoon")]
                             (when-not (-exists? path)
                               (shell (format "git clone %s %s"
@@ -17,7 +18,7 @@
                                              path))))}
 
   keyboard-repo {:doc "Install cldwalker/keyboard"
-                 :depends [-exists? -github-repo hammerspoon-repo]
+                 :depends [hammerspoon-repo]
                  :task (let [path (fs/path (System/getenv "HOME") ".keyboard")]
                          (when-not (-exists? path)
                            (shell (format "git clone %s %s"
@@ -26,14 +27,12 @@
                            (shell {:dir path} "script/setup")))}
 
   atomfiles-repo {:doc "Install cldwalker/atomfiles"
-                  :depends [-exists? -github-repo]
                   :task (let [path (str (fs/path (System/getenv "HOME") "code" "repo" "atomfiles"))]
 
                           (when-not (-exists? path)
                             (shell (format "git clone %s %s"
                                            (-github-repo "cldwalker/atomfiles")
                                            path))
-                            ;; TODO: Address swackets
                             (shell {:dir path} "apm install --packages-file my-packages.txt")
                             (shell (format "ln -s %s ~/.atom" path))
 
@@ -46,7 +45,6 @@
                               (shell {:dir git-puns-path} "yarn shadow-cljs compile dev"))))}
 
   bb-clis-repo {:doc "Install cldwalker/bb-clis"
-                :depends [-exists? -github-repo]
                 :task (let [path (fs/path (System/getenv "HOME") "code" "repo" "bb-clis")]
                         (when-not (-exists? path)
                           (shell (format "git clone %s %s"
@@ -54,7 +52,6 @@
                                          path))))}
 
   dotfiles-repo {:doc "Install cldwalker/dotfiles"
-                 :depends [-exists? -github-repo]
                  :task (let [path (str (fs/path (System/getenv "HOME") "code" "repo" "dotfiles"))]
                          (when-not (-exists? path)
                            (shell (format "git clone %s %s"
@@ -63,7 +60,6 @@
                            (shell {:dir path} "ruby install.rb")))}
 
   irbfiles-repo {:doc "Install cldwalker/irbfiles"
-                 :depends [-exists? -github-repo]
                  :task (let [path (str (fs/path (System/getenv "HOME") "code" "repo" "irbfiles"))]
                          (when-not (-exists? path)
                            (shell (format "git clone %s %s"
@@ -73,7 +69,6 @@
                            (shell {:dir path} "ruby install.rb")))}
 
   vimfiles-repo {:doc "Install cldwalker/vimfiles"
-                 :depends [-exists? -github-repo]
                  :task (let [path (str (fs/path (System/getenv "HOME") "code" "repo" "vimfiles"))]
                          (when-not (-exists? path)
                            (shell (format "git clone %s %s"
