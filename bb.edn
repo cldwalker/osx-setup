@@ -9,13 +9,18 @@
 
           (def repo-paths
             "Repo paths relative to $HOME"
-            {"cldwalker/hammerspoon-files" ".hammerspoon"
-             "cldwalker/keyboard" ".keyboard"
-             "cldwalker/atomfiles" "code/repo/atomfiles"
-             "cldwalker/bb-clis" "code/repo/bb-clis"
-             "cldwalker/dotfiles" "code/repo/dotfiles"
-             "cldwalker/irbfiles" "code/repo/irbfiles"
-             "cldwalker/vimfiles" "code/repo/vimfiles"})
+            (merge
+             {"cldwalker/hammerspoon-files" ".hammerspoon"
+              "cldwalker/keyboard" ".keyboard"
+              "cldwalker/atomfiles" "code/repo/atomfiles"
+              "cldwalker/bb-clis" "code/repo/bb-clis"
+              "cldwalker/dotfiles" "code/repo/dotfiles"
+              "cldwalker/irbfiles" "code/repo/irbfiles"
+              "cldwalker/vimfiles" "code/repo/vimfiles"}
+
+             ;; Allow for repos with differing paths and private repos
+             (when (fs/exists? "repos.edn")
+               (-> "repos.edn" slurp clojure.edn/read-string))))
 
           (defn -github-repo [gh-repo]
             (str "git@github.com:" gh-repo ".git"))
@@ -60,9 +65,15 @@
                                              (fn [p] (shell {:dir p} "rake install")))}
 
   repo-update {:doc "Update/pull all repos"
-               :task (doseq [[_ path] repo-paths]
+               :task (doseq [[gh-repo path] repo-paths]
                        (let [full-path (str (fs/path (System/getenv "HOME") path))]
-                         (shell {:dir full-path} "git pull -v")))}
+                         ;; Only print and git pull on behind repos
+                         (when (zero? (:exit
+                                       (clojure.java.shell/sh
+                                        "bash" "-c" "git fetch origin && git status |grep 'branch is behind'"
+                                        :dir full-path)))
+                           (println "Update" gh-repo "...")
+                           (shell {:dir full-path} "git pull"))))}
 
   setup {:doc "Sets up all repositories for osx"
          :depends [keyboard-repo dotfiles-repo bb-clis-repo atomfiles-repo
