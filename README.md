@@ -9,9 +9,11 @@ This works on a macbook pro with an intel or m1 chip.
 - Install [brew](https://github.com/homebrew/brew).
 - Install babashka 0.3.7+ with brew.
 
-## Setup
+## Main tasks
 
 Setup all the things: `brew bundle install && bb setup`
+
+Update all repositories: `bb repo-update`
 
 ## License
 

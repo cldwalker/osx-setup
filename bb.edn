@@ -23,7 +23,7 @@
           (defn- clone-repo-and-setup
             ([gh-repo] (clone-repo-and-setup gh-repo (fn [_])))
             ([gh-repo setup-fn]
-             (let [path (fs/path (System/getenv "HOME") (repo-paths gh-repo))]
+             (let [path (str (fs/path (System/getenv "HOME") (repo-paths gh-repo)))]
                (when-not (-exists? path)
                  (shell (format "git clone %s %s" (-github-repo gh-repo) path))
                  (setup-fn path))))))
@@ -68,6 +68,11 @@
   vimfiles-repo {:doc "Install cldwalker/vimfiles"
                  :task (clone-repo-and-setup "cldwalker/vimfiles"
                                              (fn [p] (shell {:dir p} "rake install")))}
+
+  repo-update {:doc "Update/pull all repos"
+               :task (doseq [[_ path] repo-paths]
+                       (let [full-path (str (fs/path (System/getenv "HOME") path))]
+                         (shell {:dir full-path} "git pull -v")))}
 
   setup {:doc "Sets up all repositories for osx"
          :depends [keyboard-repo dotfiles-repo bb-clis-repo atomfiles-repo
