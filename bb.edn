@@ -39,17 +39,7 @@
   atomfiles-repo {:doc "Install cldwalker/atomfiles"
                   :task (clone-repo-and-setup
                          "cldwalker/atomfiles"
-                         (fn [path]
-                           (shell {:dir path} "apm install --packages-file my-packages.txt")
-                           (shell (format "ln -s %s ~/.atom" path))
-
-                           ;; Install git-puns
-                           (let [git-puns-path (str (System/getenv "HOME") "/.atom/packages/git-puns")]
-                             (shell (format "git clone %s %s"
-                                            (-github-repo "cldwalker/git-puns")
-                                            git-puns-path))
-                             (shell {:dir git-puns-path} "yarn install")
-                             (shell {:dir git-puns-path} "yarn shadow-cljs compile dev"))))}
+                         (fn [p] (shell {:dir p} "bb setup")))}
 
   bb-clis-repo {:doc "Install cldwalker/bb-clis"
                 :task (clone-repo-and-setup "cldwalker/bb-clis")}
