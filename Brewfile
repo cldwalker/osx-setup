@@ -30,6 +30,7 @@ brew 'awscli'
 brew 'magic-wormhole'
 brew 'node'
 brew 'graphviz'
+brew 'gh'
 
 ## Sometimes
 # postgresql
