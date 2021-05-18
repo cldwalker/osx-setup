@@ -31,6 +31,8 @@ brew 'magic-wormhole'
 brew 'node'
 brew 'graphviz'
 brew 'gh'
+tap 'lucagrulla/tap'
+brew 'cw'
 
 ## Sometimes
 # postgresql

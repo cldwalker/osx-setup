@@ -15,6 +15,8 @@ Setup all the things: `brew bundle install && bb setup`
 
 Update all repositories: `bb repo-update`
 
+To install new brew packages: `brew bundle install --no-upgrade`
+
 ## License
 
 See LICENSE.md
