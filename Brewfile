@@ -13,6 +13,7 @@ cask 'alinof-timer'
 cask 'shiori'
 brew 'jq'
 brew 'diff-so-fancy'
+brew 'fzf'
 
 ## Clojure
 # required symlink for java to be required
@@ -35,23 +36,13 @@ tap 'lucagrulla/tap'
 brew 'cw'
 
 ## Sometimes
-# postgresql
-# datomic
 # keycastr
-# gist
 # vlc
 # ffmpeg
-# go
 # herrie
 # jena
-# nvm
 # mplayer
 # pdfgrep
 # pstree
-# sqlite
-# yarn
-# maven
 # youtube-dl
-# rbenv
 # ripgrep
-# readline
