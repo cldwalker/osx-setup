@@ -75,6 +75,40 @@
                            (println "Update" gh-repo "...")
                            (shell {:dir full-path} "git pull"))))}
 
+  repo-status {:doc "Check git status of all repos"
+               :requires ([clojure.string :as str])
+               :task (doseq [[gh-repo path] repo-paths]
+                       (let [full-path (str (fs/path (System/getenv "HOME") path))]
+                         (print (str "Repo " full-path ":"))
+                         (let [status (:out (shell {:out :string :dir full-path} "git status"))]
+                           (if (str/includes? status "nothing to commit")
+                             (print " No changes\n\n")
+                             (println "\n" status "\n")))))}
+
+  unknown-packages
+  {:doc "List brew packages that in Brewfile or optional-packages.edn"
+   :requires ([clojure.string :as str]
+              [clojure.edn :as edn]
+              [clojure.set :as set])
+   :task (let [installed (map (fn [l]
+                                (or (second (re-find (re-pattern "/([^/]+)$") l))
+                                    l))
+                          (str/split-lines
+                           (:out (shell {:out :string} "brew leaves"))))
+               active (keep (fn [l]
+                              (let [pkg (second (re-find (re-pattern "^(?:cask|brew)\\s*'([^']+)'\\s*") l))]
+                                ;; This is really only for babashka
+                                (when pkg
+                                  (or (second (re-find (re-pattern "/([^/]+)$") pkg))
+                                     pkg))))
+                            (str/split-lines (slurp "Brewfile")))
+               optional (->> (slurp "optional-packages.edn")
+                             edn/read-string
+                             vals
+                             flatten
+                             (map name))]
+           (println (set/difference (set installed) (set active) (set optional))))}
+
   setup {:doc "Sets up all repositories for osx"
          :depends [keyboard-repo dotfiles-repo bb-clis-repo atomfiles-repo
                    irbfiles-repo vimfiles-repo]}}}

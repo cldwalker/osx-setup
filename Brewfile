@@ -14,6 +14,7 @@ cask 'shiori'
 brew 'jq'
 brew 'diff-so-fancy'
 brew 'fzf'
+brew 'ctags'
 
 ## Clojure
 # required symlink for java to be required
@@ -34,15 +35,5 @@ brew 'graphviz'
 brew 'gh'
 tap 'lucagrulla/tap'
 brew 'cw'
-
-## Sometimes
-# keycastr
-# vlc
-# ffmpeg
-# herrie
-# jena
-# mplayer
-# pdfgrep
-# pstree
-# youtube-dl
-# ripgrep
+brew 'spark'
+brew 'git'
