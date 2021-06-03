@@ -1,10 +1,12 @@
 ;; These are packages that I use sometimes. Packages are grouped by use case (key).
-{:web [:chromedriver :chrome-cli :sassc]
+{:web [:chromedriver :chrome-cli :sassc :caddy]
  :video [:vlc :ffmpeg :mplayer]
  :music [:herrie :musikcube]
- :db [:postgresql]
- :productivity [:pstree :ripgrep :pdfgrep :tree :emacs]
- :language [:nvm :go :boot-clj :yarn :maven :ruby :rbenv :planck]
+ :db [:postgresql :sqlite :dbeaver :postico]
+ :productivity [:pstree :ripgrep :pdfgrep :tree :emacs :jet]
+ :language [:nvm :node :go :boot-clj :yarn :maven :ruby :rbenv :planck
+            :rust]
  :security [:sops :gnupg]
- :misc [:keycastr :youtube-dl :jena :httperf :aspell
-        :watchman :docker]}
+ :devops [:terraform :terragrunt]
+ :misc [:keycastr :youtube-dl :jena :httperf :aspell :pv :shellcheck
+        :watchman :docker :entr :hub :lefthook :ncurses :wget :ngrok]}
