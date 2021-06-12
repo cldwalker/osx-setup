@@ -1,5 +1,6 @@
 {:tasks
- {:requires ([babashka.fs :as fs])
+ {:requires ([babashka.fs :as fs]
+             [clojure.string :as str])
   :init (do
           ;; Define helpers
           (defn -exists? [path]
@@ -86,7 +87,6 @@
                            (shell {:dir full-path} "git pull"))))}
 
   repo-status {:doc "Check git status of all repos"
-               :requires ([clojure.string :as str])
                :task (doseq [[gh-repo path] repo-paths]
                        (let [full-path (str (fs/path (System/getenv "HOME") path))]
                          (print (str "Repo " full-path ":"))
@@ -97,8 +97,7 @@
 
   autocomplete-packages
   {:doc "List brew packages that have oh-my-zsh autocompletion"
-   :requires ([clojure.set :as set]
-              [clojure.string :as str])
+   :requires ([clojure.set :as set])
    :task (let [active (active-packages)
                autocomplete (->> (fs/list-dir (str (System/getenv "HOME") "/.oh-my-zsh/plugins"))
                                  (map (fn [p] (-> p .getFileName str)))
@@ -107,8 +106,7 @@
 
   unknown-packages
   {:doc "List brew packages that in Brewfile or optional-packages.edn"
-   :requires ([clojure.string :as str]
-              [clojure.edn :as edn]
+   :requires ([clojure.edn :as edn]
               [clojure.set :as set])
    :task (let [installed (map (fn [l]
                                 (or (second (re-find (re-pattern "/([^/]+)$") l))
