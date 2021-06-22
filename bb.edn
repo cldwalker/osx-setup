@@ -1,5 +1,11 @@
 {:tasks
- {:requires ([babashka.fs :as fs]
+ {:deps {cldwalker/bb-clis {:git/url "https://github.com/cldwalker/bb-clis"
+                            :sha "9ba19aa9beee9c85ed1ac2eb98e24cad992afc9a"}}
+  ;; For local development
+  ;; :deps {cldwalker/bb-clis {:local/root "../bb-clis"}}
+
+  :requires ([babashka.fs :as fs]
+             [cldwalker.babashka.task :as task]
              [clojure.string :as str])
   :init (do
           ;; Define helpers
@@ -42,7 +48,18 @@
                         (or (second (re-find (re-pattern "/([^/]+)$") pkg))
                             pkg))))
                   (str/split-lines (slurp "Brewfile"))))
+
+          (defn- optional-packages
+            []
+            (->> (slurp "optional-packages.edn")
+                 clojure.edn/read-string
+                 vals
+                 flatten
+                 (map name)))
           )
+
+  :enter (def ^:dynamic *parsed-args*
+           (task/parse-options))
 
   hammerspoon-repo {:doc "Install cldwalker/hammerspoon-files"
                     :task (clone-repo-and-setup "cldwalker/hammerspoon-files")}
@@ -97,12 +114,15 @@
 
   autocomplete-packages
   {:doc "List brew packages that have oh-my-zsh autocompletion"
+   :options [["-o" "--optional"]]
    :requires ([clojure.set :as set])
    :task (let [active (active-packages)
+               packages-to-analyze (if (get-in *parsed-args* [:options :optional])
+                                     (into active (optional-packages)) active)
                autocomplete (->> (fs/list-dir (str (System/getenv "HOME") "/.oh-my-zsh/plugins"))
                                  (map (fn [p] (-> p .getFileName str)))
                                  set)]
-           (println (set/intersection autocomplete (set active))))}
+           (println (set/intersection autocomplete (set packages-to-analyze))))}
 
   unknown-packages
   {:doc "List brew packages that in Brewfile or optional-packages.edn"
@@ -114,11 +134,7 @@
                               (str/split-lines
                                (:out (shell {:out :string} "brew leaves"))))
                active (active-packages)
-               optional (->> (slurp "optional-packages.edn")
-                             edn/read-string
-                             vals
-                             flatten
-                             (map name))]
+               optional (optional-packages)]
            (println (set/difference (set installed) (set active) (set optional))))}
 
   setup {:doc "Sets up all repositories for osx"
