@@ -1,11 +1,12 @@
-{:tasks
- {:deps {cldwalker/bb-clis {:git/url "https://github.com/cldwalker/bb-clis"
-                            :sha "9ba19aa9beee9c85ed1ac2eb98e24cad992afc9a"}}
+{:deps {cldwalker/bb-clis {:git/url "https://github.com/cldwalker/bb-clis"
+                           :sha "393a97cb55be57c6b9312ccec5959e247f282fdb"
+                           :deps/manifest :deps}}
   ;; For local development
   ;; :deps {cldwalker/bb-clis {:local/root "../bb-clis"}}
 
-  :requires ([babashka.fs :as fs]
-             [cldwalker.babashka.task :as task]
+ :tasks
+ {:requires ([babashka.fs :as fs]
+             [cldwalker.bb-clis.babashka.task :as task]
              [clojure.string :as str])
   :init (do
           ;; Define helpers
