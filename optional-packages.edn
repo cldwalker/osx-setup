@@ -3,10 +3,10 @@
  :video [:vlc :ffmpeg :mplayer]
  :music [:herrie :musikcube]
  :db [:postgresql :sqlite :dbeaver :postico]
- :productivity [:pstree :ripgrep :pdfgrep :tree :emacs :jet]
+ :productivity [:pstree :ripgrep :pdfgrep :tree :emacs :jet :git-extras]
  :language [:nvm :node :go :boot-clj :yarn :maven :ruby :rbenv :planck
             :rust]
  :security [:sops :gnupg]
- :devops [:terraform :terragrunt]
+ :devops [:terraform :terragrunt :tfenv]
  :misc [:keycastr :youtube-dl :jena :httperf :aspell :pv :shellcheck
         :watchman :docker :entr :hub :lefthook :ncurses :wget :ngrok]}
