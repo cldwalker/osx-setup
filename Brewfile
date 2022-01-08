@@ -15,6 +15,8 @@ brew 'jq'
 brew 'diff-so-fancy'
 brew 'fzf'
 brew 'ctags'
+tap 'schappim/ocr'
+brew 'schappim/ocr/ocr'
 
 ## Clojure
 # required symlink for java to be required
@@ -22,6 +24,7 @@ brew 'clojure'
 # Needs rosetta
 tap 'borkdude/brew'
 brew 'borkdude/brew/babashka'
+brew 'babashka/brew/obb'
 brew 'borkdude/brew/puget'
 brew 'leiningen'
 brew 'jenv'
