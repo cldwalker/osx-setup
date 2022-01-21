@@ -22,6 +22,7 @@
               "cldwalker/keyboard" ".keyboard"
               "cldwalker/atomfiles" "code/repo/atomfiles"
               "cldwalker/bb-clis" "code/repo/bb-clis"
+              "cldwalker/nbb-clis" "code/repo/nbb-clis"
               "cldwalker/dotfiles" "code/repo/dotfiles"
               "cldwalker/irbfiles" "code/repo/irbfiles"
               "cldwalker/vimfiles" "code/repo/vimfiles"}
@@ -77,6 +78,9 @@
 
   bb-clis-repo {:doc "Install cldwalker/bb-clis"
                 :task (clone-repo-and-setup "cldwalker/bb-clis")}
+
+  nbb-clis-repo {:doc "Install cldwalker/bb-clis"
+                 :task (clone-repo-and-setup "cldwalker/nbb-clis")}
 
   dotfiles-repo {:doc "Install cldwalker/dotfiles"
                  :task (clone-repo-and-setup "cldwalker/dotfiles"
@@ -140,4 +144,4 @@
 
   setup {:doc "Sets up all repositories for osx"
          :depends [keyboard-repo dotfiles-repo bb-clis-repo atomfiles-repo
-                   irbfiles-repo vimfiles-repo]}}}
+                   nbb-clis-repo irbfiles-repo vimfiles-repo]}}}
