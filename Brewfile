@@ -17,6 +17,7 @@ brew 'fzf'
 brew 'ctags'
 tap 'schappim/ocr'
 brew 'schappim/ocr/ocr'
+brew 'bat'
 
 ## Clojure
 # required symlink for java to be required
