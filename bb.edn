@@ -20,7 +20,8 @@
             (merge
              {"cldwalker/hammerspoon-files" ".hammerspoon"
               "cldwalker/keyboard" ".keyboard"
-              "cldwalker/atomfiles" "code/repo/atomfiles"
+              ;"cldwalker/atomfiles" "code/repo/atomfiles"
+              "cldwalker/logseq-config" "code/repo/logseq-config"
               "cldwalker/bb-clis" "code/repo/bb-clis"
               "cldwalker/nbb-clis" "code/repo/nbb-clis"
               "cldwalker/dotfiles" "code/repo/dotfiles"
@@ -111,11 +112,11 @@
   repo-status {:doc "Check git status of all repos"
                :task (doseq [[gh-repo path] repo-paths]
                        (let [full-path (str (fs/path (System/getenv "HOME") path))]
-                         (print (str "Repo " full-path ":"))
                          (let [status (:out (shell {:out :string :dir full-path} "git status"))]
-                           (if (str/includes? status "nothing to commit")
-                             (print " No changes\n\n")
-                             (println "\n" status "\n")))))}
+                           (when-not (and (str/includes? status "branch is up to date")
+                                          (str/includes? status "nothing to commit"))
+                             (print (str "Repo " full-path ":"))
+                             (println "\n" status)))))}
 
   autocomplete-packages
   {:doc "List brew packages that have oh-my-zsh autocompletion"
