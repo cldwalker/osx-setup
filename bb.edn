@@ -24,6 +24,7 @@
               "cldwalker/logseq-config" "code/repo/logseq-config"
               "cldwalker/bb-clis" "code/repo/bb-clis"
               "cldwalker/nbb-clis" "code/repo/nbb-clis"
+              "cldwalker/logseq-clis" "code/repo/logseq-clis"
               "cldwalker/dotfiles" "code/repo/dotfiles"
               "cldwalker/irbfiles" "code/repo/irbfiles"
               "cldwalker/vimfiles" "code/repo/vimfiles"}
