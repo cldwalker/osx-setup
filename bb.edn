@@ -20,7 +20,6 @@
             (merge
              {"cldwalker/hammerspoon-files" ".hammerspoon"
               "cldwalker/keyboard" ".keyboard"
-              ;"cldwalker/atomfiles" "code/repo/atomfiles"
               "cldwalker/logseq-config" "code/repo/logseq-config"
               "cldwalker/bb-clis" "code/repo/bb-clis"
               "cldwalker/nbb-clis" "code/repo/nbb-clis"
@@ -72,11 +71,6 @@
                  :depends [hammerspoon-repo]
                  :task (clone-repo-and-setup "cldwalker/keyboard"
                                              (fn [p] (shell {:dir p} "script/setup")))}
-
-  atomfiles-repo {:doc "Install cldwalker/atomfiles"
-                  :task (clone-repo-and-setup
-                         "cldwalker/atomfiles"
-                         (fn [p] (shell {:dir p} "bb setup")))}
 
   bb-clis-repo {:doc "Install cldwalker/bb-clis"
                 :task (clone-repo-and-setup "cldwalker/bb-clis")}
@@ -145,5 +139,5 @@
            (println (set/difference (set installed) (set active) (set optional))))}
 
   setup {:doc "Sets up all repositories for osx"
-         :depends [keyboard-repo dotfiles-repo bb-clis-repo atomfiles-repo
+         :depends [keyboard-repo dotfiles-repo bb-clis-repo
                    nbb-clis-repo irbfiles-repo vimfiles-repo]}}}

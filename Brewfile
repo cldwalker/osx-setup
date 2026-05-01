@@ -4,6 +4,8 @@
 # cask 'google-chrome'
 # cask 'iterm2'
 # cask 'slack'
+# required sudo access
+cask 'zoom'
 
 ## Productivity apps
 # cask 'logseq'
@@ -25,8 +27,7 @@ brew 'clojure'
 # Needs rosetta
 tap 'borkdude/brew'
 brew 'borkdude/brew/babashka'
-brew 'babashka/brew/obb'
-# brew 'borkdude/brew/puget'
+brew 'borkdude/brew/puget'
 # brew 'leiningen'
 brew 'jenv'
 brew 'clj-kondo'
