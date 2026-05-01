@@ -7,7 +7,7 @@ This works on a macbook pro with an intel or m1 chip.
 ## Prerequisites
 
 - Install [brew](https://github.com/homebrew/brew).
-- Install babashka 0.3.7+ with brew.
+- Install babashka 1.12+ with brew.
 
 ## Main tasks
 
