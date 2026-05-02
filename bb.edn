@@ -1,8 +1,8 @@
 {:deps {cldwalker/bb-clis {:git/url "https://github.com/cldwalker/bb-clis"
                            :sha "393a97cb55be57c6b9312ccec5959e247f282fdb"
                            :deps/manifest :deps}}
-  ;; For local development
-  ;; :deps {cldwalker/bb-clis {:local/root "../bb-clis"}}
+ ;; For local development
+ ;; :deps {cldwalker/bb-clis {:local/root "../bb-clis"}}
 
  :tasks
  {:requires ([babashka.fs :as fs]
@@ -58,8 +58,7 @@
                  clojure.edn/read-string
                  vals
                  flatten
-                 (map name)))
-          )
+                 (map name))))
 
   :enter (def ^:dynamic *parsed-args*
            (task/parse-options))
@@ -71,6 +70,10 @@
                  :depends [hammerspoon-repo]
                  :task (clone-repo-and-setup "cldwalker/keyboard"
                                              (fn [p] (shell {:dir p} "script/setup")))}
+
+  logseq-config-repo {:doc "Install cldwalker/logseq-config"
+                      :task (clone-repo-and-setup "cldwalker/logseq-config"
+                                                  (fn [p] (shell {:dir p} "bb setup")))}
 
   bb-clis-repo {:doc "Install cldwalker/bb-clis"
                 :task (clone-repo-and-setup "cldwalker/bb-clis")}
@@ -139,5 +142,5 @@
            (println (set/difference (set installed) (set active) (set optional))))}
 
   setup {:doc "Sets up all repositories for osx"
-         :depends [keyboard-repo dotfiles-repo bb-clis-repo
+         :depends [keyboard-repo dotfiles-repo bb-clis-repo logseq-config-repo
                    nbb-clis-repo irbfiles-repo vimfiles-repo]}}}
