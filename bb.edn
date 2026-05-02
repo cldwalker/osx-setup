@@ -85,11 +85,19 @@
                  :task (clone-repo-and-setup "cldwalker/dotfiles"
                                              (fn [p] (shell {:dir p} "ruby install.rb")))}
 
+  -check-bundle-version (shell "ruby -e 'abort \"Bundler >= 4 required\" unless Gem::Version.new(ARGV[0]) >= Gem::Version.new(\"4\")'"
+                               (-> (shell {:out :string} "bundle --version")
+                                   :out
+                                   (str/split (re-pattern "\\s+"))
+                                   last))
+
   irbfiles-repo {:doc "Install cldwalker/irbfiles"
+                 :depends [-check-bundle-version]
                  :task (clone-repo-and-setup
                         "cldwalker/irbfiles"
                         (fn [path]
-                          (shell {:dir path} "bundle install --system")
+                          (shell {:dir path} "bundle config set path.system true")
+                          (shell {:dir path} "bundle install")
                           (shell {:dir path} "ruby install.rb")))}
 
   vimfiles-repo {:doc "Install cldwalker/vimfiles"
