@@ -16,6 +16,7 @@
        ;; tap 'lucagrulla/tap'
        :cw]
  :devops [:terraform :terragrunt :tfenv :act]
+ :work [:heroku :nginx]
  :misc [:keycastr :youtube-dl :jena :httperf :aspell :pv :shellcheck
         :watchman :docker :entr :hub :lefthook :ncurses :wget :ngrok
         :fswatch]}

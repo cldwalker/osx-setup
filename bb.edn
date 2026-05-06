@@ -104,6 +104,9 @@
                  :task (clone-repo-and-setup "cldwalker/vimfiles"
                                              (fn [p] (shell {:dir p} "rake install")))}
 
+  beep-boop-cli {:doc "Install beep-boop"
+                 :task (shell "bbin install io.github.logseq-cldwalker/beep-boop")}
+
   repo-update {:doc "Update/pull all repos"
                :task (doseq [[gh-repo path] repo-paths]
                        (let [full-path (str (fs/path (System/getenv "HOME") path))]
@@ -141,8 +144,10 @@
    :requires ([clojure.edn :as edn]
               [clojure.set :as set])
    :task (let [installed (map (fn [l]
-                                (or (second (re-find (re-pattern "/([^/]+)$") l))
-                                    l))
+                                (-> (or (second (re-find (re-pattern "/([^/]+)$") l))
+                                        l)
+                                    ;; strip versions as they can't be put in edn e.g. postgresql@16
+                                    (str/replace-first (re-pattern "@.*$") "")))
                               (str/split-lines
                                (:out (shell {:out :string} "brew leaves"))))
                active (active-packages)

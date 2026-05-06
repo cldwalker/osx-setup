@@ -26,6 +26,7 @@ brew 'clojure'
 # Needs rosetta
 tap 'borkdude/brew'
 brew 'borkdude/brew/babashka'
+brew 'babashka/brew/bbin'
 brew 'borkdude/brew/puget'
 brew 'jenv'
 brew 'clj-kondo'
