@@ -26,7 +26,8 @@
               "cldwalker/logseq-clis" "code/repo/logseq-clis"
               "cldwalker/dotfiles" "code/repo/dotfiles"
               "cldwalker/irbfiles" "code/repo/irbfiles"
-              "cldwalker/vimfiles" "code/repo/vimfiles"}
+              "cldwalker/vimfiles" "code/repo/vimfiles"
+              "cldwalker/skills" "code/repo/skills"}
 
              ;; Allow for repos with differing paths and private repos
              (when (fs/exists? "repos.edn")
@@ -107,6 +108,15 @@
   beep-boop-cli {:doc "Install beep-boop"
                  :task (shell "bbin install io.github.logseq-cldwalker/beep-boop")}
 
+  skills-repo {:doc "Install cldwalker/skills"
+               :task (clone-repo-and-setup "cldwalker/skills"
+                                           ;; Could also add `logseq skill install --global`
+                                           (fn [p]
+                                             (shell {:dir p} "bb link-skills")
+                                             ;; May need fixing
+                                             (shell {:dir p} "ln -s ~/.agents/skills ~/.claude/skills")
+                                             (shell {:dir p} "bbin install https://github.com/bhauman/clojure-mcp-light.git --as clj-paren-repair --main-opts '[\"-m\" \"clojure-mcp-light.paren-repair\"]'")))}
+
   repo-update {:doc "Update/pull all repos"
                :task (doseq [[gh-repo path] repo-paths]
                        (let [full-path (str (fs/path (System/getenv "HOME") path))]
@@ -156,4 +166,4 @@
 
   setup {:doc "Sets up all repositories for osx"
          :depends [keyboard-repo dotfiles-repo bb-clis-repo logseq-config-repo
-                   nbb-clis-repo irbfiles-repo vimfiles-repo]}}}
+                   beep-boop-cli nbb-clis-repo irbfiles-repo vimfiles-repo skills-repo]}}}
