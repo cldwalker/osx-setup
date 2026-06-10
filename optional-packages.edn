@@ -21,4 +21,4 @@
  :work [:heroku :nginx]
  :misc [:keycastr :youtube-dl :jena :httperf :aspell :pv :shellcheck
         :watchman :docker :entr :hub :lefthook :ncurses :wget :ngrok
-        :fswatch]}
+        :fswatch :typos-cli]}
