@@ -11,7 +11,7 @@ This works on a macbook pro with an intel or m1 chip.
 
 ## Main tasks
 
-Setup all the things: `brew bundle install && bb setup`
+Setup all the things: `brew trust babashka/brew borkdude/brew && brew bundle install && bb setup`
 
 Update all repositories: `bb repo-update`
 
