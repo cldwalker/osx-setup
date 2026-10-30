@@ -3,7 +3,7 @@
  :video [:vlc :ffmpeg :mplayer]
  :music [:herrie :musikcube]
  :db [:postgresql :sqlite :dbeaver :postico]
- :ai [:codex]
+ :ai [:codex :omp]
  :ruby [:mise :ruby]
  :productivity [:pstree :ripgrep :pdfgrep :tree :emacs :jet :git-extras :difftastic
                 :jq :spark]
